@@ -3,11 +3,11 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 
 // get all products
-router.get('/api/products', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const productData = await Product.findAll(
       {
-        include: [{ model: Category, Tag }]
+        include: [{ model: Category }, { model: Tag }]
       }
     );
     res.status(200).json({ productData });
@@ -17,12 +17,12 @@ router.get('/api/products', async (req, res) => {
 });
 
 // get one product
-router.get('/api/products/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(
       req.params.id,
       {
-        include: [{ model: Category, Tag }]
+        include: [{ model: Category }, {model: Tag }]
       }
     );
     res.status(200).json({ productData });
@@ -32,7 +32,7 @@ router.get('/api/products/:id', async (req, res) => {
 });
 
 // create new product
-router.post('/api/products', (req, res) => {
+router.post('/', (req, res) => {
   Product.create({
     product_name: req.body.product_name,
     price: req.body.price,
@@ -61,7 +61,7 @@ router.post('/api/products', (req, res) => {
 });
 
 // update product
-router.put('/api/products/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
     where: {
@@ -102,7 +102,7 @@ router.put('/api/products/:id', (req, res) => {
     });
 });
 
-router.delete('/api/products/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy({
       where: {
